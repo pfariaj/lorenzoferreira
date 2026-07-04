@@ -1,0 +1,58 @@
+[
+  {
+    "id": "desejo-do-rei",
+    "titulo_pt": "O Desejo do Rei",
+    "titulo_en": "The King's Wish",
+    "ano": "2025",
+    "tc": "34",
+    "descricao_pt": "O Desejo Do Rei é uma curta-metragem de estudante realizada em março de 2025 contando alguns acontecimentos da obra 'O Memorial do Convento' por uma lente mais contemporânea e cómica.  Nesta curta mais descontraída fui eu que escrevi, gravei, editei e atuei em conjunto dos meus colegas sendo responsável mais pela estética visual e humoristica da curta.",
+    "descricao_en": "O Desejo do Rei (The King's Wish) is a student short film produced in March 2025, presenting selected events from Memorial do Convento through a contemporary and comedic perspective. For this light-hearted production, I was responsible for the screenplay, cinematography, editing, and acting alongside my classmates, while taking the lead in shaping the film's visual style and comedic tone.",
+    "capa": "assets/projetos/desejo-do-rei/06.png",
+    "galeria": [
+      "assets/projetos/desejo-do-rei/01.png",
+      "assets/projetos/desejo-do-rei/02.png",
+      "assets/projetos/desejo-do-rei/03.png",
+      "assets/projetos/desejo-do-rei/04.png",
+      "assets/projetos/desejo-do-rei/05.png",
+      "assets/projetos/desejo-do-rei/06.png"
+    ],
+    "video_vimeo": "",
+    "video_url": "https://youtu.be/A1fXlGEjrL0?si=1dzxko0udaWZvPYm"
+  },
+  {
+    "id": "nao-abras-porta",
+    "titulo_pt": "Não Abras a Porta",
+    "titulo_en": "Don't Open the Door",
+    "ano": "2026",
+    "tc": "47",
+    "descricao_pt": "Não Abras a Porta é uma curta-metragem feita em janeiro de 2026 que conta a cómica e satírica história de um rapaz com problemas intestinais. Esta curta foi realizada e escrita por mim e por um amigo meu, também presentes como atores. Foi um projeto para disfrute pessoal e de prática das minhas capacidades.",
+    "descricao_en": "Não Abras a Porta (Don't Open the Door) is a short film produced in January 2026 that tells the comedic and satirical story of a young man struggling with intestinal problems. The film was co-written and co-directed by myself and a friend, both of whom also appear as actors. It was created as a personal project for enjoyment and as an opportunity to further develop and practice my filmmaking skills.",
+    "capa": "assets/projetos/nao abras a porta/Screenshot 2026-06-21 231705.png",
+    "galeria": [
+      "assets/projetos/nao abras a porta/Screenshot 2026-06-21 231343.png",
+      "assets/projetos/nao abras a porta/Screenshot 2026-06-21 231405.png",
+      "assets/projetos/nao abras a porta/Screenshot 2026-06-21 231604.png",
+      "assets/projetos/nao abras a porta/Screenshot 2026-06-21 231639.png",
+      "assets/projetos/nao abras a porta/Screenshot 2026-06-21 231705.png"
+    ],
+    "video_vimeo": "https://vimeo.com/1204926587?share=copy&fl=sv&fe=ci",
+    "video_url": ""
+  },
+  {
+    "id": "cereal",
+    "titulo_pt": "Cereal_Cup_03",
+    "titulo_en": "Cereal_Cup_03",
+    "ano": "2026",
+    "tc": "08",
+    "descricao_pt": "Cereal_Cup_03 é uma curta-metragem experimental realizada em maio de 2026. É um curto projeto pessoal inteiramente realizado por mim onde tentei explorar mais as minhas capacidades estéticas e de narrativa abstrata.",
+    "descricao_en": "Cereal_Cup_03 is an experimental short film created in May 2026. It is an entirely self-produced personal project through which I sought to further explore my aesthetic sensibilities and approach to abstract storytelling.",
+    "capa": "assets/projetos/cereal/01.png",
+    "galeria": [
+      "assets/projetos/cereal/01.png",
+      "assets/projetos/cereal/02.png",
+      "assets/projetos/cereal/03.png"
+    ],
+    "video_vimeo": "https://vimeo.com/1204929491?share=copy&fl=sv&fe=ci",
+    "video_url": ""
+  }
+]
