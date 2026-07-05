@@ -72,7 +72,3 @@ Open `Lorenzo Ferreira - Portfolio.dc.html` directly in a browser. No server nee
 | Text | `#c7cacc` |
 | Accent | `#c91b68` |
 | Hover | `#809fff` |
-
-## Publishing
-
-Upload the entire project folder to any static host. Recommended: [Netlify](https://netlify.com) — drag and drop the folder and it goes live instantly.
