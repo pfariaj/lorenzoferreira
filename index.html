@@ -1,239 +1,386 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="./support.js"></script>
 </head>
+
 <body>
-<x-dc>
-<helmet>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0;}
-    html,body{height:100%;background:#434343;overflow:hidden;}
-    ::selection{background:#DB4B23;color:#0f0d09;}
-    .if-link{position:relative;}
-    .if-link::after{content:"";position:absolute;left:0;bottom:-3px;height:1px;width:0;background:#809fff;transition:width .5s cubic-bezier(.7,0,.2,1);}
-    .if-link:hover::after{width:100%;}
-    .if-link:hover{color:#809fff !important;}
-    .if-card:hover .if-media{transform:scale(1.025);}
-    .if-card:hover .if-play{opacity:1;}
-    .if-arrow:hover{background:#809fff !important;color:#0d0f12 !important;border-color:#809fff !important;}
-    .if-back:hover{color:#809fff !important;}
-    @keyframes bounceDown{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
-    .if-bounce{animation:bounceDown 1.8s ease-in-out infinite;}
-  </style>
-</helmet>
+  <x-dc>
+    <helmet>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+      <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap"
+        rel="stylesheet">
+      <style>
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
 
-<template id="__bundler_thumbnail" data-bg-color="#0f0d09">
-  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
-    <rect width="1200" height="800" fill="#0f0d09"></rect>
-    <text x="600" y="440" font-family="Georgia, serif" font-size="300" fill="#F3EFE6" text-anchor="middle">LF</text>
-    <circle cx="770" cy="470" r="22" fill="#DB4B23"></circle>
-    <text x="600" y="560" font-family="monospace" font-size="34" letter-spacing="14" fill="#8a8275" text-anchor="middle">PORTFÓLIO</text>
-  </svg>
-</template>
+        html,
+        body {
+          height: 100%;
+          background: #434343;
+          overflow: hidden;
+        }
 
-<div style="position:fixed;inset:0;font-family:'Newsreader',Georgia,serif;color:#F3EFE6;background:#0f0d09;">
+        ::selection {
+          background: #DB4B23;
+          color: #0f0d09;
+        }
 
-  <!-- ===== fixed background video layer ===== -->
-  <div style="{{ bgStyle }}">
-    <div style="position:absolute;inset:0;background:#0d0f12;">
-      <video autoplay="" muted="" loop="" playsinline="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" src="assets/homePortfolio.mp4"></video>
-    </div>
-    <div style="position:absolute;inset:0;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%222%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E');background-size:200px;opacity:.07;mix-blend-mode:overlay;"></div>
-    <div style="position:absolute;inset:0;background:radial-gradient(120% 90% at 70% 30%, rgba(40,34,24,0) 35%, rgba(8,6,4,.85) 100%);"></div>
-    
-  </div>
+        .if-link {
+          position: relative;
+        }
 
-  <!-- scrim -->
-  <div style="{{ scrimStyle }}"></div>
+        .if-link::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: -3px;
+          height: 1px;
+          width: 0;
+          background: #809fff;
+          transition: width .5s cubic-bezier(.7, 0, .2, 1);
+        }
 
-  <!-- ===================== HOME ===================== -->
-  <section data-screen-label="Home" style="{{ homeStyle }}">
-    <div style="position:absolute;left:5vw;bottom:5.5vh;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:rgba(243,239,230,.62);">{{ t.role }} <span style="color:#c91b68;">·</span> Lisboa</div>
-    <div ref="{{ tcRef }}" style="{{ tcStyle }}">{{ timecode }}</div>
-    
+        .if-link:hover::after {
+          width: 100%;
+        }
 
-    <h1 style="{{ heroNameStyle }}">Lorenzo<br><span style="font-style: italic; font-weight: 300; color: #c7cacc">Ferreira</span></h1>
+        .if-link:hover {
+          color: #809fff !important;
+        }
 
-    <div style="position:absolute;right:5vw;bottom:5.5vh;font-family:'Space Mono',monospace;font-size:14px;letter-spacing:.12em;">
-      <span onClick="{{ setPT }}" style="{{ ptStyle }}">PT</span><span style="opacity:.4;">/</span><span onClick="{{ setEN }}" style="{{ enStyle }}">ENG</span>
-    </div>
-  </section>
+        .if-card:hover .if-media {
+          transform: scale(1.025);
+        }
 
-  <!-- ===== Global nav (always visible) ===== -->
-  <a onClick="{{ portfolioClick }}" style="{{ portfolioLinkStyle }}">{{ t.portfolio }}</a>
-  <nav style="position:fixed;right:5vw;top:6vh;display:flex;gap:36px;align-items:baseline;font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.16em;text-transform:uppercase;z-index:20;">
-    <a class="if-link" onClick="{{ navAbout }}" style="cursor:pointer;color:#c7cacc;">{{ t.nav_about }}</a>
-    <a class="if-link" onClick="{{ navProjects }}" style="cursor:pointer;color:#c7cacc;">{{ t.nav_projects }}</a>
-    <a class="if-link" onClick="{{ navContact }}" style="cursor:pointer;color:#c7cacc;">{{ t.nav_contact }}</a>
-  </nav>
+        .if-card:hover .if-play {
+          opacity: 1;
+        }
 
-  <!-- ===================== SOBRE MIM ===================== -->
-  <section data-screen-label="Sobre mim" style="{{ aboutStyle }}">
-    
-    <div style="display:flex;width:100%;max-width:1320px;margin:0 auto;gap:7vw;align-items:center;padding:clamp(70px,9vh,110px) 5vw 40px;">
-      <div style="flex:1 1 50%;max-width:560px;">
-        <div style="font-family: 'Space Mono',monospace; font-size: 12px; letter-spacing: .3em; text-transform: uppercase; color: #c91b68; margin-bottom: 22px">001 — Bio</div>
-        <h2 style="font-size: clamp(40px,5.4vw,84px); font-weight: 400; line-height: .98; letter-spacing: -.01em; margin-bottom: 34px; color: #c7cacc">{{ t.about_title }}</h2>
-        <p style="font-size:clamp(17px,1.35vw,21px);line-height:1.62;color:#c7cacc;margin-bottom:20px;max-width:30em;">{{ t.about_p1 }}</p>
-        <p style="font-size:clamp(17px,1.35vw,21px);line-height:1.62;color:#c7cacc;max-width:30em;">{{ t.about_p2 }}</p>
-      </div>
-      <div style="flex:1 1 44%;max-width:480px;">
-        <div style="position:relative;width:100%;aspect-ratio:4/5;border:1px solid rgba(199,202,204,.16);overflow:hidden;background:#0d0f12;">
-          <img src="assets/lorenzo.jpg" alt="Lorenzo Ferreira" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; border-width: 5px; border-style: solid; border-color: #c91b68">
+        .if-arrow:hover {
+          background: #809fff !important;
+          color: #0d0f12 !important;
+          border-color: #809fff !important;
+        }
+
+        .if-back:hover {
+          color: #809fff !important;
+        }
+
+        @keyframes bounceDown {
+
+          0%,
+          100% {
+            transform: translateY(0)
+          }
+
+          50% {
+            transform: translateY(5px)
+          }
+        }
+
+        .if-bounce {
+          animation: bounceDown 1.8s ease-in-out infinite;
+        }
+      </style>
+    </helmet>
+
+    <template id="__bundler_thumbnail" data-bg-color="#0f0d09">
+      <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+        <rect width="1200" height="800" fill="#0f0d09"></rect>
+        <text x="600" y="440" font-family="Georgia, serif" font-size="300" fill="#F3EFE6" text-anchor="middle">LF</text>
+        <circle cx="770" cy="470" r="22" fill="#DB4B23"></circle>
+        <text x="600" y="560" font-family="monospace" font-size="34" letter-spacing="14" fill="#8a8275"
+          text-anchor="middle">PORTFÓLIO</text>
+      </svg>
+    </template>
+
+    <div style="position:fixed;inset:0;font-family:'Newsreader',Georgia,serif;color:#F3EFE6;background:#0f0d09;">
+
+      <!-- ===== fixed background video layer ===== -->
+      <div style="{{ bgStyle }}">
+        <video autoplay muted loop playsinline src="assets/homePortfolio.mp4"
+          style="position:absolute;inset:-10%;width:120%;height:120%;object-fit:cover;background:#1b1814;"></video>
+        <div
+          style="position:absolute;inset:0;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%222%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E');background-size:200px;opacity:.07;mix-blend-mode:overlay;">
         </div>
-      </div>
-    </div>
-    <div style="{{ langCornerStyle }}"><span onClick="{{ setPT }}" style="{{ ptStyle }}">PT</span><span style="opacity:.4;">/</span><span onClick="{{ setEN }}" style="{{ enStyle }}">ENG</span></div>
-  </section>
-
-  <!-- ===================== PROJETOS ===================== -->
-  <section data-screen-label="Projetos" style="{{ projectsStyle }}">
-    
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;padding:clamp(70px,9vh,110px) 5vw 0;margin-bottom:clamp(28px,4vh,52px);">
-      <div>
-        <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#c91b68;margin-bottom:18px;">002 — Selected work</div>
-        <h2 style="font-size: clamp(40px,6vw,92px); font-weight: 400; line-height: .95; letter-spacing: -.01em; color: #c7cacc">{{ t.projects_title }}</h2>
-      </div>
-      <div style="display:flex;gap:14px;">
-        <button class="if-arrow" onClick="{{ prevCard }}" style="{{ bigArrowStyle }}">←</button>
-        <button class="if-arrow" onClick="{{ nextCard }}" style="{{ bigArrowStyle }}">→</button>
-      </div>
-    </div>
-    <div style="overflow:hidden;width:100%;">
-      <div style="display:flex;gap:2.6vw;padding-left:5vw;will-change:transform;transition:transform .85s cubic-bezier(.7,0,.18,1);transform:{{ trackTransform }};">
-        <sc-for list="{{ projects }}" as="proj" hint-placeholder-count="6">
-          <div class="if-card" onClick="{{ proj.open }}" style="flex:none;width:44vw;cursor:pointer;">
-            <div style="position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#0d0f12;border:1px solid rgba(199,202,204,.14);">
-              <div class="if-media" style="{{ proj.mediaStyle }}">
-                <div style="position:absolute;inset:0;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%222%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E');background-size:200px;opacity:.08;mix-blend-mode:overlay;"></div>
-              </div>
-              <span style="position:absolute;left:16px;bottom:14px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.2em;color:rgba(199,202,204,.45);">00:00:{{ proj.tc }}</span>
-              <div class="if-play" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:.55;transition:opacity .5s;">
-                <span style="display:flex;align-items:center;justify-content:center;width:62px;height:62px;border:1px solid rgba(243,239,230,.5);border-radius:50%;font-size:18px;padding-left:4px;">▶</span>
-              </div>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-top:18px;gap:16px;">
-              <div style="display:flex;align-items:baseline;gap:16px;min-width:0;flex:1;">
-                <span style="font-family:'Space Mono',monospace;font-size:13px;color:#c91b68;flex:none;">{{ proj.num }}</span>
-                <h3 style="font-size: clamp(22px,2.4vw,34px); font-weight: 400; letter-spacing: -.01em; text-wrap: pretty; color: #c7cacc">{{ proj.title }}</h3>
-              </div>
-              <span style="font-family: 'Space Mono',monospace; font-size: 13px; letter-spacing: .14em; color: #c7cacc; flex: none; padding-top: 6px">{{ proj.year }}</span>
-            </div>
-          </div>
-        </sc-for>
-      </div>
-    </div>
-    <div style="{{ langCornerStyle }}"><span onClick="{{ setPT }}" style="{{ ptStyle }}">PT</span><span style="opacity:.4;">/</span><span onClick="{{ setEN }}" style="{{ enStyle }}">ENG</span></div>
-  </section>
-
-  <!-- ===================== PROJETO DETALHE ===================== -->
-  <section data-screen-label="Projeto" style="{{ projectStyle }}">
-
-    <!-- Scrollable inner container -->
-    <div ref="{{ detailScrollRef }}" style="position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; background-color: #0D0F12">
-
-      <!-- First screen: cover + info -->
-      <div style="display:flex;width:100%;min-height:480px;">
-
-        <!-- Left: Video area -->
-        <div style="flex: 0 0 65%; display: flex; flex-direction: column; justify-content: flex-start; padding: clamp(80px,10vh,120px) 0 40px 5vw; background-color: #0D0F12">
-          <div style="width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:#2a2a2a;">
-            <div style="{{ activeCoverStyle }}"></div>
-            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;">
-              <span style="display:flex;align-items:center;justify-content:center;width:72px;height:72px;border:1px solid rgba(199,202,204,.3);border-radius:50%;font-size:20px;padding-left:5px;color:rgba(199,202,204,.45);">▶</span>
-            </div>
-            <sc-if value="{{ hasVimeo }}" hint-placeholder-val="{{ false }}">
-              <div style="position:absolute;inset:0;z-index:4;">
-                <iframe src="{{ vimeoEmbedUrl }}" style="width:100%;height:100%;border:none;" allowfullscreen="" allow="autoplay; fullscreen; picture-in-picture"></iframe>
-              </div>
-            </sc-if>
-            <sc-if value="{{ hasYoutube }}" hint-placeholder-val="{{ false }}">
-              <a href="{{ ytWatchUrl }}" target="_blank" style="position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-decoration:none;background:rgba(13,15,18,.55);">
-                <span style="display:flex;align-items:center;justify-content:center;width:72px;height:72px;border:2px solid #c91b68;border-radius:50%;font-size:22px;padding-left:5px;color:#c91b68;">▶</span>
-                <span style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:rgba(199,202,204,.7);">Watch on YouTube</span>
-              </a>
-            </sc-if>
-          </div>
+        <div
+          style="position:absolute;inset:0;background:radial-gradient(120% 90% at 70% 30%, rgba(40,34,24,0) 35%, rgba(8,6,4,.85) 100%);">
         </div>
 
-        <!-- Right: Info -->
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; padding: clamp(70px,9vh,110px) 5vw 40px; text-align: right; align-items: flex-end; background-color: #0D0F12">
-          <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#c91b68;margin-bottom:22px;">{{ active.num }} <span style="color:rgba(199,202,204,.45);">/ {{ t.year_label }} {{ active.year }}</span></div>
-          <h2 style="font-size: clamp(26px,3.6vw,58px); font-weight: 400; line-height: .95; letter-spacing: -.015em; text-transform: uppercase; margin-bottom: 26px; color: #c91b68">{{ active.title }}</h2>
-          <p style="font-size: clamp(15px,1.15vw,18px); line-height: 1.7; color: #c7cacc; max-width: 30em; margin-bottom: 44px">{{ active.desc }}</p>
-
-          <!-- Prev / Next project -->
-          <div style="display:flex;gap:12px;align-items:center;margin-bottom:50px;">
-            <button class="if-arrow" onClick="{{ prevProject }}" style="{{ bigArrowStyle }}">←</button>
-            <span style="font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.16em;color:rgba(199,202,204,.42);">{{ projectCounter }}</span>
-            <button class="if-arrow" onClick="{{ nextProject }}" style="{{ bigArrowStyle }}">→</button>
-          </div>
-
-
-        </div>
       </div>
 
-      <!-- Gallery section -->
-      <sc-if value="{{ hasGallery }}" hint-placeholder-val="{{ true }}">
-        <div ref="{{ galleryRef }}" style="padding: clamp(20px,2.5vh,36px) 5vw clamp(40px,6vh,80px); border-top: 1px solid rgba(199,202,204,.08); padding-top: clamp(16px,2.5vh,36px); background-color: #0D0F12">
-          <div style="font-family: 'Space Mono',monospace; font-size: 11px; letter-spacing: .32em; text-transform: uppercase; color: #c91b68; margin-bottom: 30px">{{ t.gallery_label }}</div>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2vw;">
-            <sc-for list="{{ galleryVisible }}" as="gp" hint-placeholder-count="6">
-              <div style="aspect-ratio:16/9;overflow:hidden;background:#15120e;position:relative;">
-                <div style="{{ gp.style }}"></div>
+      <!-- scrim -->
+      <div style="{{ scrimStyle }}"></div>
+
+      <!-- ===================== HOME ===================== -->
+      <section data-screen-label="Home" style="{{ homeStyle }}">
+        <div
+          style="position: absolute; left: 140px; top: 725px; font-family: 'Space Mono',monospace; font-size: 12px; letter-spacing: .3em; text-transform: uppercase; color: rgba(243,239,230,.62)">
+          {{ t.role }} <span style="color:#DB4B23;">·</span> Lisboa</div>
+        <div ref="{{ tcRef }}" style="{{ tcStyle }}">{{ timecode }}</div>
+
+
+        <h1 style="{{ heroNameStyle }}">Lorenzo<br><span
+            style="font-style: italic; font-weight: 300; color: #c7cacc">Ferreira</span></h1>
+
+        <div
+          style="position:absolute;right:5vw;bottom:5.5vh;font-family:'Space Mono',monospace;font-size:14px;letter-spacing:.12em;">
+          <span onClick="{{ setPT }}" style="{{ ptStyle }}">PT</span><span style="opacity:.4;">/</span><span
+            onClick="{{ setEN }}" style="{{ enStyle }}">ENG</span>
+        </div>
+      </section>
+
+      <!-- ===== Global nav (always visible) ===== -->
+      <a onClick="{{ portfolioClick }}" style="{{ portfolioLinkStyle }}">{{ t.portfolio }}</a>
+      <nav
+        style="position:fixed;right:5vw;top:6vh;display:flex;gap:36px;align-items:baseline;font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.16em;text-transform:uppercase;z-index:20;">
+        <a class="if-link" onClick="{{ navAbout }}" style="cursor:pointer;color:#c7cacc;">{{ t.nav_about }}</a>
+        <a class="if-link" onClick="{{ navProjects }}" style="cursor:pointer;color:#c7cacc;">{{ t.nav_projects }}</a>
+        <a class="if-link" onClick="{{ navContact }}" style="cursor:pointer;color:#c7cacc;">{{ t.nav_contact }}</a>
+      </nav>
+
+      <!-- ===================== SOBRE MIM ===================== -->
+      <section data-screen-label="Sobre mim" style="{{ aboutStyle }}">
+
+        <div
+          style="display:flex;width:100%;max-width:1320px;margin:0 auto;gap:7vw;align-items:center;padding:clamp(70px,9vh,110px) 5vw 40px;">
+          <div style="flex:1 1 50%;max-width:560px;">
+            <div
+              style="font-family: 'Space Mono',monospace; font-size: 12px; letter-spacing: .3em; text-transform: uppercase; color: #c91b68; margin-bottom: 22px">
+              001 — Bio</div>
+            <h2
+              style="font-size: clamp(40px,5.4vw,84px); font-weight: 400; line-height: .98; letter-spacing: -.01em; margin-bottom: 34px; color: #c7cacc">
+              {{ t.about_title }}</h2>
+            <p
+              style="font-size:clamp(17px,1.35vw,21px);line-height:1.62;color:#c7cacc;margin-bottom:20px;max-width:30em;">
+              {{ t.about_p1 }}</p>
+            <p style="font-size:clamp(17px,1.35vw,21px);line-height:1.62;color:#c7cacc;max-width:30em;">{{ t.about_p2 }}
+            </p>
+          </div>
+          <div style="flex:1 1 44%;max-width:480px;">
+            <div
+              style="position:relative;width:100%;aspect-ratio:4/5;border:1px solid rgba(199,202,204,.16);overflow:hidden;background:#0d0f12;">
+              <img src="assets/lorenzo.jpg" alt="Lorenzo Ferreira"
+                style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; border-width: 5px; border-style: solid; border-color: #c91b68">
+            </div>
+          </div>
+        </div>
+        <div style="{{ langCornerStyle }}"><span onClick="{{ setPT }}" style="{{ ptStyle }}">PT</span><span
+            style="opacity:.4;">/</span><span onClick="{{ setEN }}" style="{{ enStyle }}">ENG</span></div>
+      </section>
+
+      <!-- ===================== PROJETOS ===================== -->
+      <section data-screen-label="Projetos" style="{{ projectsStyle }}">
+
+        <div
+          style="display:flex;justify-content:space-between;align-items:flex-end;padding:clamp(70px,9vh,110px) 5vw 0;margin-bottom:clamp(28px,4vh,52px);">
+          <div>
+            <div
+              style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#c91b68;margin-bottom:18px;">
+              002 — Selected work</div>
+            <h2
+              style="font-size: clamp(40px,6vw,92px); font-weight: 400; line-height: .95; letter-spacing: -.01em; color: #c7cacc">
+              {{ t.projects_title }}</h2>
+          </div>
+          <div style="display:flex;gap:14px;">
+            <button class="if-arrow" onClick="{{ prevCard }}" style="{{ bigArrowStyle }}">←</button>
+            <button class="if-arrow" onClick="{{ nextCard }}" style="{{ bigArrowStyle }}">→</button>
+          </div>
+        </div>
+        <div style="overflow:hidden;width:100%;">
+          <div
+            style="display:flex;gap:2.6vw;padding-left:5vw;will-change:transform;transition:transform .85s cubic-bezier(.7,0,.18,1);transform:{{ trackTransform }};">
+            <sc-for list="{{ projects }}" as="proj" hint-placeholder-count="6">
+              <div class="if-card" onClick="{{ proj.open }}" style="flex:none;width:44vw;cursor:pointer;">
+                <div
+                  style="position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#0d0f12;border:1px solid rgba(199,202,204,.14);">
+                  <div class="if-media" style="{{ proj.mediaStyle }}">
+                    <div
+                      style="position:absolute;inset:0;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%222%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E');background-size:200px;opacity:.08;mix-blend-mode:overlay;">
+                    </div>
+                  </div>
+                  <span
+                    style="position:absolute;left:16px;bottom:14px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.2em;color:rgba(199,202,204,.45);">00:00:{{
+                    proj.tc }}</span>
+                  <div class="if-play"
+                    style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:.55;transition:opacity .5s;">
+                    <span
+                      style="display:flex;align-items:center;justify-content:center;width:62px;height:62px;border:1px solid rgba(243,239,230,.5);border-radius:50%;font-size:18px;padding-left:4px;">▶</span>
+                  </div>
+                </div>
+                <div
+                  style="display:flex;justify-content:space-between;align-items:flex-start;margin-top:18px;gap:16px;">
+                  <div style="display:flex;align-items:baseline;gap:16px;min-width:0;flex:1;">
+                    <span style="font-family:'Space Mono',monospace;font-size:13px;color:#c91b68;flex:none;">{{ proj.num
+                      }}</span>
+                    <h3
+                      style="font-size: clamp(22px,2.4vw,34px); font-weight: 400; letter-spacing: -.01em; text-wrap: pretty; color: #c7cacc">
+                      {{ proj.title }}</h3>
+                  </div>
+                  <span
+                    style="font-family: 'Space Mono',monospace; font-size: 13px; letter-spacing: .14em; color: #c7cacc; flex: none; padding-top: 6px">{{
+                    proj.year }}</span>
+                </div>
               </div>
             </sc-for>
           </div>
-          <sc-if value="{{ hasGalleryNav }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:22px;">
-              <div style="display:flex;gap:12px;">
-                <button class="if-arrow" onClick="{{ prevGallery }}" style="{{ galleryArrowPrev }}">←</button>
-                <button class="if-arrow" onClick="{{ nextGallery }}" style="{{ galleryArrowNext }}">→</button>
+        </div>
+        <div style="{{ langCornerStyle }}"><span onClick="{{ setPT }}" style="{{ ptStyle }}">PT</span><span
+            style="opacity:.4;">/</span><span onClick="{{ setEN }}" style="{{ enStyle }}">ENG</span></div>
+      </section>
+
+      <!-- ===================== PROJETO DETALHE ===================== -->
+      <section data-screen-label="Projeto" style="{{ projectStyle }}">
+
+        <!-- Scrollable inner container -->
+        <div ref="{{ detailScrollRef }}"
+          style="position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; background-color: #0D0F12">
+
+          <!-- First screen: cover + info -->
+          <div style="display:flex;width:100%;min-height:480px;">
+
+            <!-- Left: Video area -->
+            <div
+              style="flex: 0 0 65%; display: flex; flex-direction: column; justify-content: flex-start; padding: clamp(80px,10vh,120px) 0 40px 5vw; background-color: #0D0F12">
+              <div style="width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:#2a2a2a;">
+                <div style="{{ activeCoverStyle }}"></div>
+                <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;">
+                  <span
+                    style="display:flex;align-items:center;justify-content:center;width:72px;height:72px;border:1px solid rgba(199,202,204,.3);border-radius:50%;font-size:20px;padding-left:5px;color:rgba(199,202,204,.45);">▶</span>
+                </div>
+                <sc-if value="{{ hasVimeo }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;inset:0;z-index:4;">
+                    <iframe src="{{ vimeoEmbedUrl }}" style="width:100%;height:100%;border:none;" allowfullscreen=""
+                      allow="autoplay; fullscreen; picture-in-picture"></iframe>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ hasYoutube }}" hint-placeholder-val="{{ false }}">
+                  <a href="{{ ytWatchUrl }}" target="_blank"
+                    style="position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-decoration:none;background:rgba(13,15,18,.55);">
+                    <span
+                      style="display:flex;align-items:center;justify-content:center;width:72px;height:72px;border:2px solid #c91b68;border-radius:50%;font-size:22px;padding-left:5px;color:#c91b68;">▶</span>
+                    <span
+                      style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:rgba(199,202,204,.7);">Watch
+                      on YouTube</span>
+                  </a>
+                </sc-if>
               </div>
-              <span style="font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.16em;color:rgba(199,202,204,.4);">{{ galleryCounter }}</span>
+            </div>
+
+            <!-- Right: Info -->
+            <div
+              style="flex: 1; display: flex; flex-direction: column; justify-content: center; padding: clamp(70px,9vh,110px) 5vw 40px; text-align: right; align-items: flex-end; background-color: #0D0F12">
+              <div
+                style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#c91b68;margin-bottom:22px;">
+                {{ active.num }} <span style="color:rgba(199,202,204,.45);">/ {{ t.year_label }} {{ active.year
+                  }}</span></div>
+              <h2
+                style="font-size: clamp(26px,3.6vw,58px); font-weight: 400; line-height: .95; letter-spacing: -.015em; text-transform: uppercase; margin-bottom: 26px; color: #c91b68">
+                {{ active.title }}</h2>
+              <p
+                style="font-size: clamp(15px,1.15vw,18px); line-height: 1.7; color: #c7cacc; max-width: 30em; margin-bottom: 44px">
+                {{ active.desc }}</p>
+
+              <!-- Prev / Next project -->
+              <div style="display:flex;gap:12px;align-items:center;margin-bottom:50px;">
+                <button class="if-arrow" onClick="{{ prevProject }}" style="{{ bigArrowStyle }}">←</button>
+                <span
+                  style="font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.16em;color:rgba(199,202,204,.42);">{{
+                  projectCounter }}</span>
+                <button class="if-arrow" onClick="{{ nextProject }}" style="{{ bigArrowStyle }}">→</button>
+              </div>
+
+
+            </div>
+          </div>
+
+          <!-- Gallery section -->
+          <sc-if value="{{ hasGallery }}" hint-placeholder-val="{{ true }}">
+            <div ref="{{ galleryRef }}"
+              style="padding: clamp(20px,2.5vh,36px) 5vw clamp(40px,6vh,80px); border-top: 1px solid rgba(199,202,204,.08); padding-top: clamp(16px,2.5vh,36px); background-color: #0D0F12">
+              <div
+                style="font-family: 'Space Mono',monospace; font-size: 11px; letter-spacing: .32em; text-transform: uppercase; color: #c91b68; margin-bottom: 30px">
+                {{ t.gallery_label }}</div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2vw;">
+                <sc-for list="{{ galleryVisible }}" as="gp" hint-placeholder-count="6">
+                  <div style="aspect-ratio:16/9;overflow:hidden;background:#15120e;position:relative;">
+                    <div style="{{ gp.style }}"></div>
+                  </div>
+                </sc-for>
+              </div>
+              <sc-if value="{{ hasGalleryNav }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:22px;">
+                  <div style="display:flex;gap:12px;">
+                    <button class="if-arrow" onClick="{{ prevGallery }}" style="{{ galleryArrowPrev }}">←</button>
+                    <button class="if-arrow" onClick="{{ nextGallery }}" style="{{ galleryArrowNext }}">→</button>
+                  </div>
+                  <span
+                    style="font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.16em;color:rgba(199,202,204,.4);">{{
+                    galleryCounter }}</span>
+                </div>
+              </sc-if>
             </div>
           </sc-if>
+
         </div>
-      </sc-if>
+
+        <!-- Fixed UI -->
+
+        <div style="{{ langCornerStyle }}"><span onClick="{{ setPT }}" style="{{ ptStyle }}">PT</span><span
+            style="opacity:.4;">/</span><span onClick="{{ setEN }}" style="{{ enStyle }}">ENG</span></div>
+
+      </section>
+
+      <!-- ===================== CONTACTO ===================== -->
+      <section data-screen-label="Contacto" style="{{ contactStyle }}">
+
+        <div
+          style="position:absolute;right:3vw;top:50%;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:rgba(199,202,204,.22);">
+          {{ t.available }}</div>
+        <div style="width:100%;max-width:1100px;margin:0 auto;padding:clamp(70px,9vh,110px) 5vw 0;">
+          <div
+            style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#c91b68;margin-bottom:22px;">
+            003 — Contacto</div>
+          <h2
+            style="font-size:clamp(40px,5.4vw,84px);font-weight:400;line-height:.98;letter-spacing:-.01em;margin-bottom:26px;">
+            {{ t.contact_title }}</h2>
+          <p
+            style="font-size:clamp(18px,1.5vw,24px);line-height:1.5;color:rgba(199,202,204,.7);max-width:24em;margin-bottom:54px;font-style:italic;">
+            {{ t.contact_lead }}</p>
+
+          <a href="mailto:lorenzo.faria.ferreira@gmail.com" class="if-link"
+            style="display:inline-block;font-size:clamp(28px,4.4vw,64px);font-weight:300;letter-spacing:-.01em;color:#c7cacc;text-decoration:none;margin-bottom:60px;"><span>lorenzo.faria.ferreira</span><span
+              style="color:#c91b68;">@</span><span>gmail</span>.com</a>
+
+          <div
+            style="display:flex;gap:48px;flex-wrap:wrap;border-top:1px solid rgba(199,202,204,.16);padding-top:34px;">
+            <div
+              style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:rgba(199,202,204,.45);align-self:center;">
+              {{ t.social_label }}</div>
+            <sc-for list="{{ socials }}" as="s" hint-placeholder-count="3">
+              <a href="{{ s.href }}" target="_blank" class="if-link"
+                style="font-family:'Space Mono',monospace;font-size:15px;letter-spacing:.1em;color:#c7cacc;text-decoration:none;">{{
+                s.label }} <span style="color:#c91b68;">↗</span></a>
+            </sc-for>
+          </div>
+        </div>
+        <div style="{{ langCornerStyle }}"><span onClick="{{ setPT }}" style="{{ ptStyle }}">PT</span><span
+            style="opacity:.4;">/</span><span onClick="{{ setEN }}" style="{{ enStyle }}">ENG</span></div>
+      </section>
 
     </div>
-
-    <!-- Fixed UI -->
-    
-    <div style="{{ langCornerStyle }}"><span onClick="{{ setPT }}" style="{{ ptStyle }}">PT</span><span style="opacity:.4;">/</span><span onClick="{{ setEN }}" style="{{ enStyle }}">ENG</span></div>
-
-  </section>
-
-  <!-- ===================== CONTACTO ===================== -->
-  <section data-screen-label="Contacto" style="{{ contactStyle }}">
-    
-    <div style="position:absolute;right:3vw;top:50%;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:rgba(199,202,204,.22);">{{ t.available }}</div>
-    <div style="width:100%;max-width:1100px;margin:0 auto;padding:clamp(70px,9vh,110px) 5vw 0;">
-      <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#c91b68;margin-bottom:22px;">003 — Contacto</div>
-      <h2 style="font-size:clamp(40px,5.4vw,84px);font-weight:400;line-height:.98;letter-spacing:-.01em;margin-bottom:26px;">{{ t.contact_title }}</h2>
-      <p style="font-size:clamp(18px,1.5vw,24px);line-height:1.5;color:rgba(199,202,204,.7);max-width:24em;margin-bottom:54px;font-style:italic;">{{ t.contact_lead }}</p>
-
-      <a href="mailto:lorenzo.faria.ferreira@gmail.com" class="if-link" style="display:inline-block;font-size:clamp(28px,4.4vw,64px);font-weight:300;letter-spacing:-.01em;color:#c7cacc;text-decoration:none;margin-bottom:60px;"><span>lorenzo.faria.ferreira</span><span style="color:#c91b68;">@</span><span>gmail</span>.com</a>
-
-      <div style="display:flex;gap:48px;flex-wrap:wrap;border-top:1px solid rgba(199,202,204,.16);padding-top:34px;">
-        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:rgba(199,202,204,.45);align-self:center;">{{ t.social_label }}</div>
-        <sc-for list="{{ socials }}" as="s" hint-placeholder-count="3">
-          <a href="{{ s.href }}" target="_blank" class="if-link" style="font-family:'Space Mono',monospace;font-size:15px;letter-spacing:.1em;color:#c7cacc;text-decoration:none;">{{ s.label }} <span style="color:#c91b68;">↗</span></a>
-        </sc-for>
-      </div>
-    </div>
-    <div style="{{ langCornerStyle }}"><span onClick="{{ setPT }}" style="{{ ptStyle }}">PT</span><span style="opacity:.4;">/</span><span onClick="{{ setEN }}" style="{{ enStyle }}">ENG</span></div>
-  </section>
-
-</div>
-</x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;heroLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;statement&quot;,&quot;corner&quot;],&quot;default&quot;:&quot;corner&quot;,&quot;tsType&quot;:&quot;'statement' | 'corner'&quot;},&quot;showTimecode&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+  </x-dc>
+  <script type="text/x-dc" data-dc-script
+    data-props="{&quot;heroLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;statement&quot;,&quot;corner&quot;],&quot;default&quot;:&quot;corner&quot;,&quot;tsType&quot;:&quot;'statement' | 'corner'&quot;},&quot;showTimecode&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
 class Component extends DCLogic {
   state = { screen: 'home', lang: 'pt', carousel: 0, slide: 0, activeProject: 0, galleryIndex: 0, projects: [] };
   tcRef = React.createRef();
@@ -308,6 +455,11 @@ class Component extends DCLogic {
 
   projectCount() { return this.state.projects.length; }
 
+  assetUrl(path) {
+    if (!path) return '';
+    return path.split('/').map(encodeURIComponent).join('/');
+  }
+
   copy() {
     const PT = {
       role: 'Film maker', portfolio: 'Portfólio',
@@ -379,7 +531,7 @@ class Component extends DCLogic {
       open: () => this.openProject(i),
       mediaStyle: {
         position: 'absolute', inset: 0,
-        backgroundImage: p.capa ? "url('" + p.capa + "')" : 'none',
+        backgroundImage: p.capa ? "url('" + this.assetUrl(p.capa) + "')" : 'none',
         backgroundSize: 'cover', backgroundPosition: 'center',
         transition: 'transform .7s cubic-bezier(.7,0,.2,1)'
       }
@@ -427,7 +579,7 @@ class Component extends DCLogic {
     const hasGallery = galeria.length > 0;
     const galleryIdx = this.state.galleryIndex;
     const galleryVisible = galeria.slice(galleryIdx, galleryIdx + 6).map(src => ({
-      style: { position: 'absolute', inset: 0, backgroundImage: "url('" + src + "')", backgroundSize: 'cover', backgroundPosition: 'center' }
+      style: { position: 'absolute', inset: 0, backgroundImage: "url('" + this.assetUrl(src) + "')", backgroundSize: 'cover', backgroundPosition: 'center' }
     }));
 
     return {
@@ -474,12 +626,12 @@ class Component extends DCLogic {
       contactStyle: this.screenLayer('contact'),
       activeDetailBgStyle: {
         position: 'absolute', inset: 0, background: '#15120e', overflow: 'hidden',
-        backgroundImage: activeProj.capa ? "url('" + activeProj.capa + "')" : 'none',
+        backgroundImage: activeProj.capa ? "url('" + this.assetUrl(activeProj.capa) + "')" : 'none',
         backgroundSize: 'cover', backgroundPosition: 'center'
       },
       activeCoverStyle: {
         position: 'absolute', inset: 0,
-        backgroundImage: activeProj.capa ? "url('" + activeProj.capa + "')" : 'none',
+        backgroundImage: activeProj.capa ? "url('" + this.assetUrl(activeProj.capa) + "')" : 'none',
         backgroundSize: 'cover', backgroundPosition: 'center'
       },
       hasVimeo,
@@ -558,4 +710,5 @@ class Component extends DCLogic {
 }
 </script>
 </body>
+
 </html>
