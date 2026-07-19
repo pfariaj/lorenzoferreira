@@ -21,12 +21,15 @@
     .if-link:hover::after { width: 100%; }
     .if-link:hover { color: #809fff !important; }
     .if-card:hover .if-media { transform: scale(1.025); }
+    .if-gcell:hover .if-gmedia { transform: scale(1.045); }
     .if-card:hover .if-play { opacity: 1; }
     .if-arrow:hover { background: #809fff !important; color: #0d0f12 !important; border-color: #809fff !important; }
     @keyframes bounceDown { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(5px) } }
     .if-bounce { animation: bounceDown 1.8s ease-in-out infinite; }
     @media (max-width: 767px) { .if-desktop-nav { display: none !important; } }
     @media (min-width: 768px) { .if-ham { display: none !important; } }
+    html, body { max-width: 100%; overflow-x: hidden; }
+    h1, h2, h3 { overflow-wrap: break-word; word-break: break-word; }
   </style>
 </helmet>
 
@@ -39,7 +42,7 @@
   </svg>
 </template>
 
-<div style="position:fixed;inset:0;font-family:'Newsreader',Georgia,serif;color:#F3EFE6;background:#0f0d09;">
+<div style="position:fixed;inset:0;overflow-x:hidden;font-family:'Newsreader',Georgia,serif;color:#F3EFE6;background:#0f0d09;">
 
   <!-- background video -->
   <div style="{{ bgStyle }}">
@@ -84,7 +87,7 @@
       </div>
       <div style="{{ aboutRightStyle }}">
         <div style="{{ aboutPhotoContainerStyle }}">
-          <img src="assets/lorenzo.jpg" alt="Lorenzo Ferreira" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center center;border-width:5px;border-style:solid;border-color:#c91b68;">
+          <img src="assets/lorenzo.jpg" alt="Lorenzo Ferreira" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;border-width:5px;border-style:solid;border-color:#c91b68;">
         </div>
       </div>
     </div>
@@ -93,14 +96,14 @@
 
   <!-- ===================== PROJETOS ===================== -->
   <section data-screen-label="Projetos" style="{{ projectsStyle }}">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;padding:clamp(70px,9vh,110px) 5vw 0;margin-bottom:clamp(28px,4vh,52px);">
+    <div style="{{ projectsHeaderStyle }}">
       <div>
         <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#c91b68;margin-bottom:18px;">002 — Selected work</div>
         <h2 style="font-size:clamp(36px,6vw,92px);font-weight:400;line-height:.95;letter-spacing:-.01em;color:#c7cacc;">{{ t.projects_title }}</h2>
       </div>
       <div style="display:flex;gap:14px;">
-        <button class="if-arrow" onClick="{{ prevCard }}" style="{{ bigArrowStyle }}">←</button>
-        <button class="if-arrow" onClick="{{ nextCard }}" style="{{ bigArrowStyle }}">→</button>
+        <button class="if-arrow" onClick="{{ prevCard }}" style="{{ carouselArrowStyle }}">←</button>
+        <button class="if-arrow" onClick="{{ nextCard }}" style="{{ carouselArrowStyle }}">→</button>
       </div>
     </div>
     <div onTouchStart="{{ onTouchStartCarousel }}" onTouchEnd="{{ onTouchEndCarousel }}" style="overflow:hidden;width:100%;">
@@ -127,7 +130,7 @@
         </sc-for>
       </div>
     </div>
-    <div style="{{ langCornerStyle }}"><span onClick="{{ setPT }}" style="{{ ptStyle }}">PT</span><span style="opacity:.4;">/</span><span onClick="{{ setEN }}" style="{{ enStyle }}">ENG</span></div>
+    <div style="{{ langCornerHidden }}"><span onClick="{{ setPT }}" style="{{ ptStyle }}">PT</span><span style="opacity:.4;">/</span><span onClick="{{ setEN }}" style="{{ enStyle }}">ENG</span></div>
   </section>
 
   <!-- ===================== PROJETO DETALHE ===================== -->
@@ -138,12 +141,14 @@
 
         <!-- Video area -->
         <div style="{{ detailVideoPaneStyle }}">
-          <div style="width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:#2a2a2a;">
+          <div onClick="{{ playPoster }}" style="width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:#2a2a2a;cursor:pointer;">
             <div style="{{ activeCoverStyle }}"></div>
-            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;">
-              <span style="display:flex;align-items:center;justify-content:center;width:72px;height:72px;border:1px solid rgba(199,202,204,.3);border-radius:50%;font-size:20px;padding-left:5px;color:rgba(199,202,204,.45);">▶</span>
-            </div>
-            <sc-if value="{{ hasVimeo }}" hint-placeholder-val="{{ false }}">
+            <sc-if value="{{ showPlayBadge }}" hint-placeholder-val="{{ true }}">
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;">
+                <span style="display:flex;align-items:center;justify-content:center;width:72px;height:72px;border:1px solid rgba(199,202,204,.3);border-radius:50%;font-size:20px;padding-left:5px;color:rgba(199,202,204,.45);">▶</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ showVimeo }}" hint-placeholder-val="{{ false }}">
               <div style="position:absolute;inset:0;z-index:4;">
                 <iframe src="{{ vimeoEmbedUrl }}" style="width:100%;height:100%;border:none;" allowfullscreen="" allow="autoplay; fullscreen; picture-in-picture"></iframe>
               </div>
@@ -178,8 +183,8 @@
           <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:#c91b68;margin-bottom:30px;">{{ t.gallery_label }}</div>
           <div style="{{ galleryGridStyle }}">
             <sc-for list="{{ galleryVisible }}" as="gp" hint-placeholder-count="6">
-              <div style="aspect-ratio:16/9;overflow:hidden;background:#15120e;position:relative;">
-                <div style="{{ gp.style }}"></div>
+              <div class="if-gcell" onClick="{{ gp.open }}" style="aspect-ratio:16/9;overflow:hidden;background:#15120e;position:relative;cursor:pointer;">
+                <div class="if-gmedia" style="{{ gp.style }}"></div>
               </div>
             </sc-for>
           </div>
@@ -196,17 +201,17 @@
       </sc-if>
     </div>
 
-    <div style="{{ langCornerStyle }}"><span onClick="{{ setPT }}" style="{{ ptStyle }}">PT</span><span style="opacity:.4;">/</span><span onClick="{{ setEN }}" style="{{ enStyle }}">ENG</span></div>
+    <div style="{{ langCornerHidden }}"><span onClick="{{ setPT }}" style="{{ ptStyle }}">PT</span><span style="opacity:.4;">/</span><span onClick="{{ setEN }}" style="{{ enStyle }}">ENG</span></div>
   </section>
 
   <!-- ===================== CONTACTO ===================== -->
   <section data-screen-label="Contacto" style="{{ contactStyle }}">
     <div style="{{ rotatedTextStyle }}">{{ t.available }}</div>
-    <div style="width:100%;max-width:1100px;margin:0 auto;padding:clamp(70px,9vh,110px) 5vw 60px;">
+    <div style="width:100%;max-width:1100px;margin:0 auto;padding:clamp(120px,17vh,190px) 5vw 60px;">
       <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#c91b68;margin-bottom:22px;">003 — Contacto</div>
       <h2 style="font-size:clamp(36px,5.4vw,84px);font-weight:400;line-height:.98;letter-spacing:-.01em;margin-bottom:26px;">{{ t.contact_title }}</h2>
       <p style="font-size:clamp(17px,1.5vw,24px);line-height:1.5;color:rgba(199,202,204,.7);max-width:24em;margin-bottom:54px;font-style:italic;">{{ t.contact_lead }}</p>
-      <a href="mailto:lorenzo.faria.ferreira@gmail.com" class="if-link" style="display:inline-block;font-size:clamp(18px,4.4vw,64px);font-weight:300;letter-spacing:-.01em;color:#c7cacc;text-decoration:none;margin-bottom:60px;word-break:break-word;">
+      <a href="/cdn-cgi/l/email-protection#1c70736e79726673327a7d6e757d327a796e6e79756e7d5c7b717d7570327f7371" class="if-link" style="display:inline-block;font-size:clamp(18px,4.4vw,64px);font-weight:300;letter-spacing:-.01em;color:#c7cacc;text-decoration:none;margin-bottom:60px;word-break:break-word;">
         <span>lorenzo.faria.ferreira</span><span style="color:#c91b68;">@</span><span>gmail</span>.com
       </a>
       <div style="display:flex;gap:36px;flex-wrap:wrap;border-top:1px solid rgba(199,202,204,.16);padding-top:34px;">
@@ -218,6 +223,18 @@
     </div>
     <div style="{{ langCornerStyle }}"><span onClick="{{ setPT }}" style="{{ ptStyle }}">PT</span><span style="opacity:.4;">/</span><span onClick="{{ setEN }}" style="{{ enStyle }}">ENG</span></div>
   </section>
+
+  <!-- ===== Gallery lightbox ===== -->
+  <div style="{{ lightboxStyle }}" onClick="{{ closeLightbox }}">
+    <button onClick="{{ closeLightbox }}" style="{{ lbCloseStyle }}" aria-label="Close">✕</button>
+    <button class="if-arrow" onClick="{{ prevLightboxStop }}" style="{{ lbPrevStyle }}">←</button>
+    <div onClick="{{ stopProp }}" onTouchStart="{{ onLbTouchStart }}" onTouchMove="{{ onLbTouchMove }}" onTouchEnd="{{ onLbTouchEnd }}" style="{{ lbStageStyle }}">
+      <img src="{{ lightboxSrc }}" style="{{ lbImgStyle }}" alt="" draggable="false">
+    </div>
+    <button class="if-arrow" onClick="{{ nextLightboxStop }}" style="{{ lbNextStyle }}">→</button>
+    <div style="{{ lbCounterStyle }}">{{ lightboxCounter }}</div>
+    <div style="{{ lbHintStyle }}">{{ lbHint }}</div>
+  </div>
 
   <!-- ===== Mobile hamburger (hidden on desktop) ===== -->
   <button class="if-ham" onClick="{{ toggleMenu }}" style="{{ hamburgerStyle }}" aria-label="Menu">
@@ -241,13 +258,13 @@
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/x-dc" data-dc-script data-props="{
   &quot;$preview&quot;: {&quot;width&quot;: 390, &quot;height&quot;: 844},
   &quot;heroLayout&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;statement&quot;, &quot;corner&quot;], &quot;default&quot;: &quot;corner&quot;, &quot;tsType&quot;: &quot;'statement' | 'corner'&quot;},
   &quot;showTimecode&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;}
 }">
 class Component extends DCLogic {
-  state = { screen: 'home', lang: 'pt', carousel: 0, slide: 0, activeProject: 0, galleryIndex: 0, projects: [], menuOpen: false };
+  state = { screen: 'home', lang: 'pt', carousel: 0, slide: 0, activeProject: 0, galleryIndex: 0, projects: [], menuOpen: false, lightboxOpen: false, lightboxIndex: 0, lbScale: 1, lbPanX: 0, lbPanY: 0, videoOpen: false };
   tcRef = React.createRef();
   bgVideoRef = React.createRef();
   detailScrollRef = React.createRef();
@@ -296,6 +313,12 @@ class Component extends DCLogic {
     }, 250);
     this._onKey = (e) => {
       const s = this.state;
+      if (s.lightboxOpen) {
+        if (e.key === 'Escape') this.closeLightbox();
+        else if (e.key === 'ArrowRight') this.nextLightbox();
+        else if (e.key === 'ArrowLeft') this.prevLightbox();
+        return;
+      }
       if (e.key === 'Escape') {
         if (s.menuOpen) { this.setState({ menuOpen: false }); return; }
         if (s.screen !== 'home') this.setState({ screen: 'home' });
@@ -352,23 +375,73 @@ class Component extends DCLogic {
   prevSlide = () => this.setState(s => ({ slide: (s.slide + 3) % 4 }));
 
   openProject = (i) => {
-    this.setState({ activeProject: i, screen: 'project', galleryIndex: 0 });
+    this.setState({ activeProject: i, screen: 'project', galleryIndex: 0, videoOpen: false });
     setTimeout(() => { const el = this.detailScrollRef.current; if (el) el.scrollTop = 0; }, 50);
   };
   nextProject = () => {
-    this.setState(s => ({ activeProject: (s.activeProject + 1) % this.projectCount(), galleryIndex: 0 }));
+    this.setState(s => ({ activeProject: (s.activeProject + 1) % this.projectCount(), galleryIndex: 0, videoOpen: false }));
     setTimeout(() => { const el = this.detailScrollRef.current; if (el) el.scrollTop = 0; }, 50);
   };
   prevProject = () => {
-    this.setState(s => ({ activeProject: (s.activeProject + this.projectCount() - 1) % this.projectCount(), galleryIndex: 0 }));
+    this.setState(s => ({ activeProject: (s.activeProject + this.projectCount() - 1) % this.projectCount(), galleryIndex: 0, videoOpen: false }));
     setTimeout(() => { const el = this.detailScrollRef.current; if (el) el.scrollTop = 0; }, 50);
   };
+  openVideo = () => this.setState({ videoOpen: true });
   nextGallery = () => {
     const galeria = (this.state.projects[this.state.activeProject] || {}).galeria || [];
     this.setState(s => ({ galleryIndex: Math.min(Math.max(0, galeria.length - 6), s.galleryIndex + 6) }));
   };
   prevGallery = () => this.setState(s => ({ galleryIndex: Math.max(0, s.galleryIndex - 6) }));
   scrollToGallery = () => { const el = this.detailScrollRef.current; if (el) el.scrollTop = el.clientHeight; };
+
+  galeriaList() { return (this.state.projects[this.state.activeProject] || {}).galeria || []; }
+  openLightbox = (i) => this.setState({ lightboxOpen: true, lightboxIndex: i, lbScale: 1, lbPanX: 0, lbPanY: 0 });
+  closeLightbox = () => this.setState({ lightboxOpen: false, lbScale: 1, lbPanX: 0, lbPanY: 0 });
+  nextLightbox = () => this.setState(s => { const g = this.galeriaList(); return g.length ? { lightboxIndex: (s.lightboxIndex + 1) % g.length, lbScale: 1, lbPanX: 0, lbPanY: 0 } : {}; });
+  prevLightbox = () => this.setState(s => { const g = this.galeriaList(); return g.length ? { lightboxIndex: (s.lightboxIndex + g.length - 1) % g.length, lbScale: 1, lbPanX: 0, lbPanY: 0 } : {}; });
+  _lbDist(t) { const dx = t[0].clientX - t[1].clientX, dy = t[0].clientY - t[1].clientY; return Math.hypot(dx, dy); }
+  onLbTouchStart = (e) => {
+    if (e.touches.length === 2) {
+      this._lbMode = 'pinch';
+      this._lbPinchStart = this._lbDist(e.touches);
+      this._lbScaleStart = this.state.lbScale;
+    } else if (e.touches.length === 1) {
+      this._lbStartX = e.touches[0].clientX;
+      this._lbStartY = e.touches[0].clientY;
+      this._lbPanStartX = this.state.lbPanX;
+      this._lbPanStartY = this.state.lbPanY;
+      this._lbMoved = false; this._lbDX = 0;
+      const now = Date.now();
+      if (now - (this._lbLastTap || 0) < 300) this._lbMode = 'doubletap';
+      else this._lbMode = this.state.lbScale > 1 ? 'pan' : 'swipe';
+      this._lbLastTap = now;
+    }
+  };
+  onLbTouchMove = (e) => {
+    if (this._lbMode === 'pinch' && e.touches.length === 2) {
+      if (e.cancelable) e.preventDefault();
+      const d = this._lbDist(e.touches);
+      const scale = Math.max(1, Math.min(4, this._lbScaleStart * d / (this._lbPinchStart || 1)));
+      this.setState(scale <= 1.02 ? { lbScale: 1, lbPanX: 0, lbPanY: 0 } : { lbScale: scale });
+    } else if (this._lbMode === 'pan' && e.touches.length === 1) {
+      if (e.cancelable) e.preventDefault();
+      this.setState({ lbPanX: this._lbPanStartX + (e.touches[0].clientX - this._lbStartX), lbPanY: this._lbPanStartY + (e.touches[0].clientY - this._lbStartY) });
+      this._lbMoved = true;
+    } else if (this._lbMode === 'swipe' && e.touches.length === 1) {
+      this._lbDX = e.touches[0].clientX - this._lbStartX;
+      if (Math.abs(this._lbDX) > 6) this._lbMoved = true;
+    }
+  };
+  onLbTouchEnd = () => {
+    if (this._lbMode === 'doubletap') {
+      this.setState(s => s.lbScale > 1 ? { lbScale: 1, lbPanX: 0, lbPanY: 0 } : { lbScale: 2.5 });
+    } else if (this._lbMode === 'swipe' && this._lbMoved && Math.abs(this._lbDX) > 50) {
+      if (this._lbDX < 0) this.nextLightbox(); else this.prevLightbox();
+    } else {
+      this.forceUpdate();
+    }
+    this._lbMode = null; this._lbDX = 0;
+  };
 
   projectCount() { return this.state.projects.length; }
 
@@ -408,7 +481,7 @@ class Component extends DCLogic {
       pointerEvents: active ? 'auto' : 'none',
       visibility: active ? 'visible' : 'hidden'
     };
-    if (m && (name === 'about' || name === 'contact')) {
+    if (name === 'about' || name === 'contact') {
       base.overflowY = 'auto';
       base.justifyContent = 'flex-start';
     }
@@ -422,7 +495,7 @@ class Component extends DCLogic {
       about_title: 'Sobre mim',
       about_p1: 'Olá! O meu nome é Lorenzo e sou um aspirante a artista e cinematógrafo de 18 anos. Atualmente vivo em Lisboa, onde concluí o ensino secundário num curso profissional especializado em Animação e Motion Design 2D/3D. Desde então, tenho dedicado o meu tempo ao desenvolvimento de projetos pessoais e à colaboração com colegas e amigos nos seus próprios projetos criativos.',
       about_p2: 'Neste momento, procuro oportunidades para adquirir experiência profissional nas áreas do cinema, da arte e do entretenimento. Estou motivado para integrar novos projetos, aprender com profissionais da indústria e contribuir com criatividade, dedicação e vontade de evoluir.',
-      projects_title: 'Projetos', contact_title: 'Vamos\u00A0trabalhar\u00A0juntos',
+      projects_title: 'Projetos', contact_title: 'Vamos trabalhar juntos',
       contact_lead: 'Disponível para novos projetos, colaborações e encomendas.',
       social_label: 'Redes', year_label: 'Ano', available: 'Disponível — 2026',
       gallery_label: 'Galeria',
@@ -433,7 +506,7 @@ class Component extends DCLogic {
       about_title: 'About me',
       about_p1: 'Hello! My name is Lorenzo, and I am an 18-year-old aspiring artist and cinematographer. I am currently based in Lisbon, where I completed my secondary education through a vocational programme specialising in 2D/3D Animation and Motion Design. Since then, I have been dedicating my time to developing personal projects while collaborating with colleagues and friends on their own creative work.',
       about_p2: 'I am currently seeking opportunities to gain professional experience in the fields of film, art, and entertainment. I am eager to contribute to new projects, learn from industry professionals, and continue developing my skills through creativity, dedication, and a strong commitment to growth.',
-      projects_title: 'Projects', contact_title: 'Let\u2019s\u00A0work\u00A0together',
+      projects_title: 'Projects', contact_title: 'Let\u2019s work together',
       contact_lead: 'Available for new projects, collaborations and commissions.',
       social_label: 'Social', year_label: 'Year', available: 'Available — 2026',
       gallery_label: 'Gallery',
@@ -474,20 +547,21 @@ class Component extends DCLogic {
       desc: lang === 'en' ? (activeProj.descricao_en || activeProj.descricao_pt || '') : (activeProj.descricao_pt || '')
     };
 
-    const langActive = { cursor: 'pointer', color: '#c7cacc', fontWeight: 700, padding: '0 4px' };
-    const langInactive = { cursor: 'pointer', color: 'rgba(199,202,204,.5)', fontWeight: 400, padding: '0 4px' };
+    const langActive = { cursor: 'pointer', color: '#c7cacc', fontWeight: 700, padding: '8px 7px', display: 'inline-block' };
+    const langInactive = { cursor: 'pointer', color: 'rgba(199,202,204,.5)', fontWeight: 400, padding: '8px 7px', display: 'inline-block' };
 
     const vimeoId = activeProj.video_vimeo ? (activeProj.video_vimeo.match(/vimeo\.com\/(\d+)/) || [])[1] : null;
     const hasVimeo = !!vimeoId;
-    const vimeoEmbedUrl = vimeoId ? 'https://player.vimeo.com/video/' + vimeoId + '?title=0&byline=0&portrait=0&color=c91b68' : '';
+    const vimeoEmbedUrl = vimeoId ? 'https://player.vimeo.com/video/' + vimeoId + '?title=0&byline=0&portrait=0&autoplay=1&color=c91b68' : '';
     const ytUrl = activeProj.video_url || '';
     const ytId = ytUrl ? ((ytUrl.match(/youtu\.be\/([^?&]+)/) || ytUrl.match(/[?&]v=([^&]+)/) || [])[1] || null) : null;
     const hasYoutube = !!ytId;
     const galeria = activeProj.galeria || [];
     const hasGallery = galeria.length > 0;
     const galleryIdx = this.state.galleryIndex;
-    const galleryVisible = galeria.slice(galleryIdx, galleryIdx + 6).map(src => ({
-      style: { position: 'absolute', inset: 0, backgroundImage: "url('" + src + "')", backgroundSize: 'cover', backgroundPosition: 'center' }
+    const galleryVisible = galeria.slice(galleryIdx, galleryIdx + 6).map((src, k) => ({
+      open: () => this.openLightbox(galleryIdx + k),
+      style: { position: 'absolute', inset: 0, backgroundImage: "url('" + src + "')", backgroundSize: 'cover', backgroundPosition: 'center', transition: 'transform .5s cubic-bezier(.7,0,.2,1)' }
     }));
 
     const bigArrow = {
@@ -512,8 +586,8 @@ class Component extends DCLogic {
       display: 'flex', flexDirection: m ? 'column' : 'row',
       width: '100%', maxWidth: '1320px', margin: '0 auto',
       gap: m ? '28px' : '7vw',
-      alignItems: m ? 'stretch' : 'center',
-      padding: 'clamp(70px,9vh,110px) 5vw 60px',
+      alignItems: m ? 'stretch' : 'flex-start',
+      padding: m ? 'clamp(70px,9vh,110px) 5vw 60px' : 'clamp(120px,17vh,190px) 5vw 60px',
     };
     const aboutLeftStyle = {
       flex: m ? '0 0 auto' : '1 1 50%',
@@ -540,7 +614,7 @@ class Component extends DCLogic {
     const detailVideoPaneStyle = m ? {
       flex: '0 0 auto', width: '100%',
       display: 'flex', flexDirection: 'column', justifyContent: 'flex-start',
-      padding: 'clamp(60px,8vh,90px) 5vw 0',
+      padding: 'clamp(96px,13vh,130px) 5vw 0',
       backgroundColor: '#0D0F12',
     } : {
       flex: '0 0 65%',
@@ -676,11 +750,11 @@ class Component extends DCLogic {
 
       heroNameStyle: heroTop ? {
         position: 'absolute', left: '5vw', top: '13vh',
-        fontSize: m ? 'clamp(46px,12vw,120px)' : 'clamp(46px,7.2vw,120px)',
+        fontSize: m ? 'clamp(44px,10.5vw,120px)' : 'clamp(46px,7.2vw,120px)',
         fontWeight: 400, lineHeight: '.9', letterSpacing: '-.02em', margin: 0
       } : {
         position: 'absolute', left: '5vw', bottom: '15vh',
-        fontSize: m ? 'clamp(56px,16vw,176px)' : 'clamp(56px,10.5vw,176px)',
+        fontSize: m ? 'clamp(52px,13vw,176px)' : 'clamp(56px,10.5vw,176px)',
         fontWeight: 400, lineHeight: '.86', letterSpacing: '-.025em', margin: 0
       },
       tcStyle: {
@@ -694,6 +768,7 @@ class Component extends DCLogic {
         position: 'absolute', right: '5vw', bottom: '5.5vh', zIndex: 5,
         fontFamily: "'Space Mono',monospace", fontSize: '14px', letterSpacing: '.12em'
       },
+      langCornerHidden: { display: 'none' },
       bigArrowStyle: bigArrow,
 
       timecode: '00:00:00:00',
@@ -714,6 +789,18 @@ class Component extends DCLogic {
 
       prevCard: this.prevCard,
       nextCard: this.nextCard,
+      projectsHeaderStyle: {
+        display: 'flex', justifyContent: 'space-between',
+        alignItems: m ? 'flex-start' : 'flex-end',
+        flexDirection: m ? 'column' : 'row',
+        gap: m ? '20px' : '0',
+        padding: 'clamp(70px,9vh,110px) 5vw 0',
+        marginBottom: 'clamp(28px,4vh,52px)',
+      },
+      carouselArrowStyle: Object.assign({}, bigArrow, m ? { width: '44px', height: '44px', fontSize: '16px' } : {}),
+      showVimeo: hasVimeo && this.state.videoOpen,
+      showPlayBadge: !(hasVimeo && this.state.videoOpen),
+      playPoster: hasVimeo ? this.openVideo : null,
       prevProject: this.prevProject,
       nextProject: this.nextProject,
       projects, active,
@@ -732,6 +819,58 @@ class Component extends DCLogic {
       galleryArrowNext: Object.assign({}, bigArrow, galleryIdx + 6 >= galeria.length ? { opacity: .3, cursor: 'default' } : {}),
       nextGallery: this.nextGallery,
       prevGallery: this.prevGallery,
+
+      lightboxOpen: this.state.lightboxOpen,
+      lightboxSrc: galeria[this.state.lightboxIndex] || '',
+      lightboxCounter: galeria.length ? String(this.state.lightboxIndex + 1).padStart(2, '0') + ' / ' + String(galeria.length).padStart(2, '0') : '',
+      lbHint: this.state.lbScale > 1 ? (m ? 'Double-tap to reset' : '') : (m ? 'Double-tap or pinch to zoom' : ''),
+      openLightbox: this.openLightbox,
+      closeLightbox: this.closeLightbox,
+      nextLightboxStop: (e) => { if (e) e.stopPropagation(); this.nextLightbox(); },
+      prevLightboxStop: (e) => { if (e) e.stopPropagation(); this.prevLightbox(); },
+      stopProp: (e) => { if (e) e.stopPropagation(); },
+      onLbTouchStart: this.onLbTouchStart,
+      onLbTouchMove: this.onLbTouchMove,
+      onLbTouchEnd: this.onLbTouchEnd,
+      lightboxStyle: {
+        position: 'fixed', inset: 0, zIndex: 80,
+        background: 'rgba(8,9,11,.96)',
+        display: this.state.lightboxOpen ? 'flex' : 'none',
+        alignItems: 'center', justifyContent: 'center',
+        backdropFilter: 'blur(3px)', WebkitBackdropFilter: 'blur(3px)',
+      },
+      lbStageStyle: {
+        position: 'relative', maxWidth: '92vw', maxHeight: '84vh',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        touchAction: 'none', overflow: 'hidden',
+      },
+      lbImgStyle: {
+        maxWidth: '92vw', maxHeight: '84vh', objectFit: 'contain',
+        userSelect: 'none', WebkitUserSelect: 'none', WebkitUserDrag: 'none',
+        display: 'block', willChange: 'transform',
+        transform: 'translate(' + this.state.lbPanX + 'px,' + this.state.lbPanY + 'px) scale(' + this.state.lbScale + ')',
+        transition: this._lbMode ? 'none' : 'transform .22s cubic-bezier(.4,0,.2,1)',
+        cursor: this.state.lbScale > 1 ? 'grab' : 'zoom-in',
+      },
+      lbCloseStyle: {
+        position: 'fixed', top: 'max(20px,3vh)', right: '5vw', zIndex: 84,
+        width: '46px', height: '46px', borderRadius: '50%',
+        border: '1px solid rgba(199,202,204,.4)', background: 'rgba(13,15,18,.5)',
+        color: '#c7cacc', fontSize: '17px', cursor: 'pointer',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontFamily: "'Space Mono',monospace", transition: 'all .3s ease', lineHeight: 1,
+      },
+      lbPrevStyle: Object.assign({}, bigArrow, { position: 'fixed', left: '3vw', top: '50%', transform: 'translateY(-50%)', zIndex: 82, background: 'rgba(13,15,18,.5)', display: m ? 'none' : 'flex' }),
+      lbNextStyle: Object.assign({}, bigArrow, { position: 'fixed', right: '3vw', top: '50%', transform: 'translateY(-50%)', zIndex: 82, background: 'rgba(13,15,18,.5)', display: m ? 'none' : 'flex' }),
+      lbCounterStyle: {
+        position: 'fixed', bottom: 'max(18px,3vh)', left: '50%', transform: 'translateX(-50%)', zIndex: 82,
+        fontFamily: "'Space Mono',monospace", fontSize: '13px', letterSpacing: '.18em', color: 'rgba(199,202,204,.6)',
+      },
+      lbHintStyle: {
+        position: 'fixed', top: 'max(20px,3vh)', left: '5vw', zIndex: 82,
+        fontFamily: "'Space Mono',monospace", fontSize: '10px', letterSpacing: '.24em', textTransform: 'uppercase',
+        color: 'rgba(199,202,204,.4)', maxWidth: '55vw',
+      },
       detailScrollRef: this.detailScrollRef,
       galleryRef: this.galleryRef,
 
